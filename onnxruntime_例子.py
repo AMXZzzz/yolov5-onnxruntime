@@ -11,7 +11,7 @@ import mss
 from myToolkit import letterbox, non_max_suppression, scale_coords
 
 '''
-onnxruntime引擎例子
+onnxruntime引擎例子,可以用cpu和gpu版本
 '''
 
 cap = mss.mss()

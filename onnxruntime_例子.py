@@ -27,10 +27,7 @@ if __name__ == '__main__':
 
     # 加载图片
     img_path = 'imags_14.jpg'  # 图片路径
-    img = cv2.imread(img_path)  # cv2读取图片
-    img0 = img  # 复制一张原图用来显示
-
-
+    img0 = cv2.imread(img_path)  # cv2读取图片
 
     # 预处理
     img = letterbox(img0, img_size, stride=64, auto=False)[0]

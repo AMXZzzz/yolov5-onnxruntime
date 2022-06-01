@@ -20,14 +20,16 @@ def grab_screen_mss(monitor):
 if __name__ == '__main__':
     # 参数定义
     img_size = (640, 640)  # 训练权重的传入尺寸
-    device = 'cuda' if torch.cuda.is_available() else 'cpu'  # 根据pytorch是否支持gpu选择设备
-    half = (device != 'cpu')  # 如果支持cuda将使用半精度fp16,
+    cuda = torch.cuda.is_available()
+    device = 'cuda' if cuda else 'cpu'  # 根据pytorch是否支持gpu选择设备
+
     conf_thres = 0.25  # 置信度
     iou_thres = 0.45  # iou
 
     # 加载onnx引擎
-    onnx_path = f'cf_v6.onnx'  # onnx模型的路径
-    sess = onnxruntime.InferenceSession(onnx_path)  # 加载模型
+    onnx_path = f'cf_3000img.onnx'  # onnx模型的路径
+    providers = ['CUDAExecutionProvider', 'CPUExecutionProvider'] if cuda else ['CPUExecutionProvider'] # 选择onnxruntime
+    sess = onnxruntime.InferenceSession(onnx_path, providers=providers)  # 加载模型
 
     # # 加载单张图片
     # img_path = 'imags_14.jpg'  # 图片路径
@@ -61,8 +63,8 @@ if __name__ == '__main__':
         img = np.ascontiguousarray(img)
         # 放入设备
         img = torch.from_numpy(img).to(device)
-        # uint8 转 fp16/32
-        img = img.half() if half else img.float()
+        # uint8 转 fp32
+        img = img.float()
         # 归一化
         img /= 255
         # 扩大批量调暗

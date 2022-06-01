@@ -33,7 +33,7 @@ if __name__ == '__main__':
     # img_path = 'imags_14.jpg'  # 图片路径
     # img0 = cv2.imread(img_path)  # cv2读取图片
  
-
+    # ----截屏----
     scr = mss.mss() # 实例化mss
     game_left, game_tap, game_x, game_y = 0, 0, 1920, 1080  # 截图范围
     monitor = {
@@ -43,6 +43,8 @@ if __name__ == '__main__':
     'height': game_y } # 高度       
     cv2.namedWindow('img', cv2.WINDOW_NORMAL)    # 创建窗口
     cv2.resizeWindow('img', 1920//3, 1080//3)    # 裁剪窗口
+    #---------------
+    
     while True:
         if not cv2.getWindowProperty('img', cv2.WND_PROP_VISIBLE):
             cv2.destroyAllWindows()
